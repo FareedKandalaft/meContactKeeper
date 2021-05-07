@@ -1,3 +1,5 @@
+/* eslint-disable import/no-anonymous-default-export */
+// import ContactContext from './contactContext';
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -10,10 +12,25 @@ import {
 
 export default (state, action) => {
   switch (action.type) {
+    //   case GET_CONTACTS:
+    //     return {
+    //       ...state,
+    //       contacts: action.payload,
+    //       loading: false
+    //     };
     case ADD_CONTACT:
       return {
         ...state,
-        contacts: [...state.contacts, action.payload],
+        contacts: [action.payload, ...state.contacts],
+        loading: false,
+      };
+    case DELETE_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.filter(
+          (contact) => contact._id !== action.payload
+        ),
+        loading: false,
       };
     default:
       return state;
