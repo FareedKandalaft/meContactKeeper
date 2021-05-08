@@ -24,14 +24,31 @@ export default (state, action) => {
         contacts: [action.payload, ...state.contacts],
         loading: false,
       };
+    case UPDATE_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.map((contact) =>
+          contact._id === action.payload.id ? action.payload : contact
+        ),
+      };
     case DELETE_CONTACT:
       return {
         ...state,
         contacts: state.contacts.filter(
           (contact) => contact._id !== action.payload
         ),
-        loading: false,
       };
+    case SET_CURRENT:
+      return {
+        ...state,
+        current: action.payload,
+      };
+    case CLEAR_CURRENT:
+      return {
+        ...state,
+        current: null,
+      };
+
     default:
       return state;
   }
