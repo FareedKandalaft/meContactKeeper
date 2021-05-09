@@ -385,17 +385,17 @@ table th {
 }
 
 /* Animation (Add After) */
-.item-enter {
+.fader-enter {
   opacity: 0;
 }
-.item-enter-active {
+.fader-enter-active {
   opacity: 1;
   transition: opacity 1000ms ease-in;
 }
-.item-exit {
+.fader-exit {
   opacity: 1;
 }
-.item-exit-active {
+.fader-exit-active {
   opacity: 0;
   transition: opacity 1000ms ease-in;
 }
