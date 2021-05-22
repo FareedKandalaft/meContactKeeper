@@ -10,6 +10,7 @@ import {
   CLEAR_FILTER,
   CONTACT_ERROR,
   GET_CONTACTS,
+  CLEAR_CONTACTS,
 } from '../types';
 
 export default (state, action) => {
@@ -50,6 +51,13 @@ export default (state, action) => {
     case CLEAR_CURRENT:
       return {
         ...state,
+        current: null,
+      };
+    case CLEAR_CONTACTS:
+      return {
+        ...state,
+        contacts: null,
+        filtered: null,
         current: null,
       };
     case FILTER_CONTACTS:
