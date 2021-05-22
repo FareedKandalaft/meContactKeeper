@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import ContactContext from './contactContext';
 import contactReducer from './contactReducer';
 import {
@@ -10,43 +11,68 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
+  CONTACT_ERROR,
+  GET_CONTACTS,
+  CLEAR_CONTACTS,
 } from '../types';
 
 const ContactState = (props) => {
+  // const initialState = {
+  //   contacts: [
+  //     {
+  //       _id: '1',
+  //       name: 'Christina Aguilera',
+  //       email: 'chaste@gmail.com',
+  //       phone: '812 455 9878',
+  //       type: 'personal',
+  //     },
+  //     {
+  //       _id: '2',
+  //       name: 'Charles Atlas',
+  //       email: 'catlas@gmail.com',
+  //       phone: '914 325 2478',
+  //       type: 'personal',
+  //     },
+  //     {
+  //       _id: '3',
+  //       name: 'William Bixpy',
+  //       email: 'bbixpy@gmail.com',
+  //       phone: '914 255 7845',
+  //       type: 'professional',
+  //     },
+  //   ],
   const initialState = {
-    contacts: [
-      {
-        _id: '1',
-        name: 'Christina Aguilera',
-        email: 'chaste@gmail.com',
-        phone: '812 455 9878',
-        type: 'personal',
-      },
-      {
-        _id: '2',
-        name: 'Charles Atlas',
-        email: 'catlas@gmail.com',
-        phone: '914 325 2478',
-        type: 'personal',
-      },
-      {
-        _id: '3',
-        name: 'William Bixpy',
-        email: 'bbixpy@gmail.com',
-        phone: '914 255 7845',
-        type: 'professional',
-      },
-    ],
+    contacts: null,
     current: null,
     filtered: null,
+    error: null,
   };
-
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
+  // Get Contacts
+  const getContacts = async () => {
+    try {
+      const res = await axios.get('/api/contacts');
+      dispatch({ type: GET_CONTACTS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+    }
+  };
+
   // Add Contact
-  const addContact = (contact) => {
-    contact.id = uuidv4();
-    dispatch({ type: ADD_CONTACT, payload: contact });
+  const addContact = async (contact) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post('/api/contacts', contact, config);
+      dispatch({ type: ADD_CONTACT, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+    }
   };
 
   // Delete Contact
@@ -85,6 +111,7 @@ const ContactState = (props) => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addContact,
         deleteContact,
         setCurrent,
@@ -92,6 +119,7 @@ const ContactState = (props) => {
         updateContact,
         filterContacts,
         clearFilter,
+        getContacts,
       }}
     >
       {props.children}
