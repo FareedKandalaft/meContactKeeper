@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://admin-spectre:atlas123@contactkeeper.xu9dn.mongodb.net/ContactKeeper?retryWrites=true&w=majority",
+  "jwtSecret": "Secret"
+}
