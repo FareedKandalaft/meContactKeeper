@@ -4,7 +4,7 @@
   "description": "Contact Manager App",
   "main": "server.js",
   "scripts": {
-    "start": "enode server.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "clientinstall": "npm install --prefix client",
